@@ -1,0 +1,47 @@
+﻿MANAJOY GAMECLASS — TERMS OF USE AND PRIVACY POLICY
+Revision of 23 October 2026
+
+Please read before installing. By choosing "I accept the agreement" you, as the club owner or their representative, agree to these terms.
+
+1. WHAT THE PROGRAM DOES
+Manajoy GameClass ("Bridge") runs as a Windows service on the computer where the GameClass club software is installed. It reads the state of the club's PCs from the GameClass database and shows in the Manajoy app which PC is free, which is busy and when it will be free. Cashiers also get a price calculator and a club map.
+
+2. EFFECT ON GAMECLASS
+Bridge writes nothing to GameClass and does not control it: it does not open or close sessions and does not change money or settings. During setup a separate read-only SQL login "gcbridge_ro" is created; setup checks and shows that SQL Server itself refuses its write attempts.
+
+3. WHAT IS READ
+The list and groups (zones) of PCs, their state, session start and end times, reservation times, tariffs and prices; for Reports also session payments, bar sales, shifts and staff (cashier) names.
+Customers' names, phone numbers, passwords and account balances are NOT read.
+
+4. WHAT IS SENT TO MANAJOY
+Only after the club owner connects Bridge with a one-time code from the ManaJoy Biznes app, over encrypted HTTPS:
+- PC number and name, zone;
+- state (free / busy / off / under repair), time left and the next reservation time;
+- the club map (where PCs and rooms are), if you draw one;
+- Bridge version and technical status (error texts);
+- since version 0.9.0: a club report for each business day — revenue (PC time, bar, account top-ups), how long each PC was busy and the day's timeline, session counts, and totals per tariff, bar item, staff member and shift;
+- since version 0.10.0: bar stock levels and the stock book you keep in the Bar section (deliveries, counts, write-offs), also as a backup copy.
+Customers' names, phone numbers and customer lists are not sent. Sending the report can be turned off in Reports settings or in the ManaJoy Biznes app; then only the live state above is sent.
+
+5. WHO SEES IT
+PC states and the club map are shown to Manajoy app users on your club's page. The club report (revenue and the rest) is seen only by your club's owner and managers in the ManaJoy Biznes app and by Manajoy support staff. The data is stored on Manajoy servers, linked to your club account, and is not sold to third parties. Manajoy's general privacy policy: https://www.manajoy.uz/privacy
+
+6. WHAT IS STORED ON THIS PC
+- the program files (in the folder you choose);
+- the "gcbridge_ro" password and the Manajoy connection key, encrypted with Windows DPAPI and readable only by administrators and the system;
+- technical logs and window settings (C:\ProgramData\Manajoy\GameClassBridge);
+- the PIN of the Reports section (a salted hash only, never the PIN itself) and the hour the business day starts (C:\ProgramData\Manajoy\GameClassBridge\analytics, readable only by administrators and the system).
+The revenue, occupancy and bar reports in the Reports section are computed from the GameClass database on this PC; their daily totals are sent to Manajoy as described in section 4.
+Bridge listens only on an address inside this computer (127.0.0.1:8787) and accepts no network connections.
+
+7. STOPPING AND REMOVING
+Sending can be stopped at any time with "Settings → Stop sending". Removing the program with "Settings → Uninstall" or in Windows "Apps" deletes the service, the files and the encrypted keys. Deletion of the data on Manajoy servers can be requested in the ManaJoy Biznes app.
+
+8. UPDATES
+New versions are published on the Manajoy website. Updating keeps the login, settings and Manajoy connection.
+
+9. LIABILITY
+The program is provided free of charge and keeps being improved. Manajoy is not the developer of GameClass; the GameClass software itself and its operation are the responsibility of its developer and the club.
+
+10. CONTACT
+Questions and problems: https://www.manajoy.uz or the help section of the ManaJoy Biznes app.

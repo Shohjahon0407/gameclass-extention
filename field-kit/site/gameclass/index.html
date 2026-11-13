@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Manajoy GameClass — yuklab olish</title>
+  <meta name="description" content="GameClass klub kompyuterlari holatini Manajoy ilovasida jonli ko'rsatadigan bepul dastur. Windows 10/11.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <style>
+    :root {
+      --primary: #1b54e4; --primary-dark: #1230a8; --primary-light: #e3eafe;
+      --grad: linear-gradient(150deg, #7a2be2 0%, #4324d6 26%, #1b54e4 58%, #0ea5f0 100%);
+      --bg: #f5f7f8; --card: #fff; --text: #15181b; --text-2: #4a5560; --muted: #7b8794; --border: #e6e9ec;
+      --success: #1e9e62; --success-soft: #e7f6ee; --warning-soft: #fdf3e4;
+      --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+      --mono: "Cascadia Mono", Consolas, ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.55; }
+    a { color: var(--primary); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+    header.hero { background: var(--grad); color: #fff; }
+    .top { display: flex; align-items: center; gap: 12px; padding: 18px 0; }
+    .top img { width: 40px; height: 40px; }
+    .top .name { font-weight: 800; font-size: 18px; }
+    .top .spacer { flex: 1; }
+    .langs { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(0, 0, 0, .18); }
+    .langs button { border: 0; background: transparent; color: rgba(255, 255, 255, .85); font: inherit; font-weight: 700; font-size: 13px; padding: 5px 12px; border-radius: 999px; cursor: pointer; }
+    .langs button.on { background: #fff; color: var(--primary); }
+    .hero-body { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; padding: 36px 0 64px; }
+    .kicker { font-weight: 700; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+    h1 { font-size: 40px; line-height: 1.15; letter-spacing: -.02em; margin: 10px 0 14px; }
+    .lead { font-size: 18px; opacity: .92; margin: 0 0 28px; max-width: 560px; }
+    .download { display: inline-flex; align-items: center; gap: 12px; height: 58px; padding: 0 26px; border-radius: 16px; background: #fff; color: var(--primary-dark); font-weight: 800; font-size: 17px; text-decoration: none; box-shadow: 0 14px 34px rgba(0, 0, 0, .22); }
+    .download svg { width: 22px; height: 22px; }
+    .download:hover { transform: translateY(-1px); }
+    .meta { margin-top: 12px; font-size: 14px; opacity: .85; }
+    .card-preview { background: rgba(255, 255, 255, .14); border-radius: 24px; padding: 20px; backdrop-filter: blur(6px); }
+    .pcs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .pc { border-radius: 12px; background: #fff; color: var(--text); padding: 10px 6px; text-align: center; border-top: 5px solid #9aa5b1; }
+    .pc b { display: block; font-size: 22px; line-height: 1.1; }
+    .pc span { font-size: 12px; font-weight: 800; color: var(--muted); }
+    .pc.free { border-top-color: var(--success); } .pc.free span { color: #15804e; }
+    .pc.busy { border-top-color: var(--primary); } .pc.busy span { color: var(--primary-dark); }
+    .pc.fix { border-top-color: #e08a1e; } .pc.fix span { color: #b36a10; }
+
+    section { padding: 56px 0 8px; }
+    h2 { font-size: 28px; letter-spacing: -.01em; margin: 0 0 22px; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 22px; box-shadow: 0 1px 2px rgba(21, 24, 27, .04), 0 8px 24px rgba(21, 24, 27, .06); }
+    .card h3 { margin: 0 0 6px; font-size: 17px; }
+    .card p { margin: 0; color: var(--text-2); font-size: 15px; }
+    .icon { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--primary-light); color: var(--primary); margin-bottom: 12px; }
+    .icon svg { width: 22px; height: 22px; }
+    ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; counter-reset: s; }
+    ol.steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; }
+    ol.steps li::before { content: counter(s); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--primary-light); color: var(--primary); font-weight: 800; }
+    ol.steps b { display: block; }
+    ol.steps span { color: var(--text-2); font-size: 15px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    ul.req { margin: 0; padding-left: 20px; color: var(--text-2); }
+    ul.req li { margin: 6px 0; }
+    .note { background: var(--warning-soft); color: #7a4810; border-radius: 16px; padding: 16px 18px; font-size: 15px; }
+    .note b { color: #5e3608; }
+    code, .hash { font-family: var(--mono); font-size: 13px; word-break: break-all; }
+    .hash { display: block; margin-top: 8px; padding: 10px 12px; border-radius: 10px; background: #fff; border: 1px solid #f1d7b0; color: var(--text); }
+    footer { margin-top: 56px; padding: 26px 0 40px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center; }
+    footer .spacer { flex: 1; }
+    [data-lang-hide] { display: none; }
+
+    @media (max-width: 860px) {
+      .hero-body, .two, .grid3 { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+      .card-preview { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="top">
+        <img src="logo-white.png" alt="">
+        <div class="name">Manajoy GameClass</div>
+        <span class="spacer"></span>
+        <div class="langs" role="group" aria-label="Til / Язык / Language">
+          <button data-set-lang="uz">UZ</button><button data-set-lang="ru">RU</button><button data-set-lang="en">EN</button>
+        </div>
+      </div>
+      <div class="hero-body">
+        <div>
+          <div class="kicker" data-t="kicker">GameClass klublari uchun · bepul</div>
+          <h1 data-t="title">Klubingiz kompyuterlarini Manajoy'da jonli ko'rsating</h1>
+          <p class="lead" data-t="lead">Mijozlar Manajoy ilovasida qaysi kompyuter bo'sh, qaysi biri band va qachon bo'shashini ko'radi. Dastur GameClass'ni faqat o'qiydi — unda hech narsa o'zgarmaydi.</p>
+          <a class="download" href="download/{{FILE}}" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+            <span data-t="download">Windows uchun yuklab olish</span>
+          </a>
+          <div class="meta"><span data-t="version">Versiya</span> {{VERSION}} · {{SIZE_MB}} MB · Windows 10 / 11 · {{DATE}}</div>
+        </div>
+        <div class="card-preview" aria-hidden="true">
+          <div class="pcs">
+            <div class="pc free"><b>1</b><span data-t="free">Bo'sh</span></div>
+            <div class="pc busy"><b>2</b><span>0:32</span></div>
+            <div class="pc busy"><b>3</b><span>1:15</span></div>
+            <div class="pc free"><b>4</b><span data-t="free">Bo'sh</span></div>
+            <div class="pc busy"><b>5</b><span>2:05</span></div>
+            <div class="pc fix"><b>6</b><span data-t="repair">Ta'mirda</span></div>
+            <div class="pc free"><b>7</b><span>19:30</span></div>
+            <div class="pc busy"><b>8</b><span>0:48</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2 data-t="whatTitle">Nima qiladi</h2>
+      <div class="grid3">
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/></svg></div>
+          <h3 data-t="f1t">Faqat o'qiydi</h3>
+          <p data-t="f1">Alohida «faqat o'qish» login yaratiladi. GameClass'dagi seans, pul va sozlamalarga tegmaydi — buni SQL Server'ning o'zi kafolatlaydi.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg></div>
+          <h3 data-t="f2t">Zal xaritasi va kassa</h3>
+          <p data-t="f2">Klub xaritasini chizasiz — mijozlar ham uni ko'radi. Kassir uchun GameClass tariflari bo'yicha narx hisoblagich bor.</p>
+        </div>
+        <div class="card">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+          <h3 data-t="f3t">O'zi ishlaydi</h3>
+          <p data-t="f3">Windows xizmati sifatida kompyuter yonishi bilan ishga tushadi. Sozlash taxminan 5 daqiqa, texnik shart emas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 data-t="howTitle">Qanday o'rnatiladi</h2>
+      <ol class="steps">
+        <li><div><b data-t="s1t">Yuklab oling va oching</b><span data-t="s1">GameClass Server o'rnatilgan kompyuterda «ManajoyGameClass-Setup» faylini oching.</span></div></li>
+        <li><div><b data-t="s2t">Shartlarni o'qing va papkani tanlang</b><span data-t="s2">Foydalanuvchi shartlari va maxfiylik siyosatini qabul qiling, o'rnatish papkasini tanlang — «Keyingi», «O'rnatish».</span></div></li>
+        <li><div><b data-t="s3t">GameClass bazasiga ulang</b><span data-t="s3">Oynada «Tekshiruv» va «GameClass bazasi» qadamlari — odatda faqat «Davom etish» ni bosasiz.</span></div></li>
+        <li><div><b data-t="s4t">Manajoy'ga ulang</b><span data-t="s4">ManaJoy Biznes ilovasida: Profil → Kompyuterlar holati → GameClass orqali ulash. 8 belgili kodni oynaga yozing.</span></div></li>
+      </ol>
+    </section>
+
+    <section>
+      <div class="two">
+        <div class="card">
+          <h3 data-t="reqTitle">Talablar</h3>
+          <ul class="req">
+            <li data-t="r1">Windows 10 (1607) yoki Windows 11, 32 yoki 64-bit</li>
+            <li data-t="r2">GameClass Server o'rnatilgan kompyuter</li>
+            <li data-t="r3">Administrator huquqi va internet</li>
+            <li data-t="r4">ManaJoy Biznes ilovasi (klub egasi akkaunti)</li>
+          </ul>
+        </div>
+        <div class="note">
+          <b data-t="ssTitle">«Windows protected your PC» oynasi chiqsa</b><br>
+          <span data-t="ss">Dastur hali raqamli sertifikat bilan imzolanmagan, shuning uchun Windows uni «noma'lum» deb ko'rsatadi. «Подробнее / More info» → «Выполнить в любом случае / Run anyway» ni bosing. Faylni faqat shu sahifadan yuklab oling va quyidagi kod bilan solishtiring:</span>
+          <span class="hash">SHA-256: {{SHA256}}</span>
+          <span data-t="ssHow">Tekshirish: cmd → certutil -hashfile ManajoyGameClass-Setup-{{VERSION}}.exe SHA256</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Manajoy</span>
+      <a href="privacy.html" data-t="privacy">Foydalanish shartlari va maxfiylik</a>
+      <a href="https://www.manajoy.uz/privacy" data-t="privacyAll">Manajoy maxfiylik siyosati</a>
+      <span class="spacer"></span>
+      <span>Manajoy GameClass {{VERSION}}</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var T = {
+        ru: {
+          kicker: 'Для клубов на GameClass · бесплатно',
+          title: 'Показывайте компьютеры клуба в Manajoy вживую',
+          lead: 'Клиенты видят в приложении Manajoy, какой компьютер свободен, какой занят и когда освободится. Программа только читает GameClass — в нём ничего не меняется.',
+          download: 'Скачать для Windows', version: 'Версия', free: 'Свободен', repair: 'В ремонте',
+          whatTitle: 'Что делает',
+          f1t: 'Только чтение', f1: 'Создаётся отдельный логин «только чтение». Сеансы, деньги и настройки GameClass не затрагиваются — это гарантирует сам SQL Server.',
+          f2t: 'Карта зала и касса', f2: 'Вы рисуете карту клуба — её видят и клиенты. Для кассира есть калькулятор цен по тарифам GameClass.',
+          f3t: 'Работает сама', f3: 'Как служба Windows запускается вместе с компьютером. Настройка около 5 минут, техник не нужен.',
+          howTitle: 'Как установить',
+          s1t: 'Скачайте и откройте', s1: 'На компьютере с GameClass Server откройте файл «ManajoyGameClass-Setup».',
+          s2t: 'Прочитайте условия и выберите папку', s2: 'Примите условия и политику конфиденциальности, выберите папку установки — «Далее», «Установить».',
+          s3t: 'Подключите базу GameClass', s3: 'В окне шаги «Проверка» и «База GameClass» — обычно достаточно нажать «Продолжить».',
+          s4t: 'Подключите Manajoy', s4: 'В приложении ManaJoy Biznes: Профиль → Состояние компьютеров → Подключить через GameClass. Введите 8-значный код в окне.',
+          reqTitle: 'Требования',
+          r1: 'Windows 10 (1607) или Windows 11, 32 или 64 бита', r2: 'Компьютер с GameClass Server', r3: 'Права администратора и интернет', r4: 'Приложение ManaJoy Biznes (аккаунт владельца клуба)',
+          ssTitle: 'Если появилось окно «Система Windows защитила ваш компьютер»',
+          ss: 'Программа пока не подписана цифровым сертификатом, поэтому Windows показывает её как «неизвестную». Нажмите «Подробнее» → «Выполнить в любом случае». Скачивайте файл только с этой страницы и сверяйте код:',
+          ssHow: 'Проверка: cmd → certutil -hashfile ManajoyGameClass-Setup-{{VERSION}}.exe SHA256',
+          privacy: 'Условия использования и конфиденциальность', privacyAll: 'Политика конфиденциальности Manajoy'
+        },
+        en: {
+          kicker: 'For GameClass clubs · free',
+          title: "Show your club's PCs live in Manajoy",
+          lead: 'Customers see in the Manajoy app which PC is free, which is busy and when it will be free. The program only reads GameClass — nothing in it changes.',
+          download: 'Download for Windows', version: 'Version', free: 'Free', repair: 'Repair',
+          whatTitle: 'What it does',
+          f1t: 'Read-only', f1: 'A separate read-only login is created. Sessions, money and settings in GameClass are never touched — SQL Server itself guarantees it.',
+          f2t: 'Floor map and cashier', f2: 'Draw your club map — customers see it too. Cashiers get a price calculator based on GameClass tariffs.',
+          f3t: 'Runs by itself', f3: 'A Windows service that starts with the PC. Setup takes about 5 minutes, no technician needed.',
+          howTitle: 'How to install',
+          s1t: 'Download and open', s1: 'On the PC with GameClass Server, open the "ManajoyGameClass-Setup" file.',
+          s2t: 'Read the terms and choose a folder', s2: 'Accept the terms and privacy policy, choose the install folder — "Next", "Install".',
+          s3t: 'Connect the GameClass database', s3: 'In the window, the "Check" and "GameClass database" steps — usually you just press "Continue".',
+          s4t: 'Connect Manajoy', s4: 'In the ManaJoy Biznes app: Profile → PC status → Connect via GameClass. Type the 8-character code in the window.',
+          reqTitle: 'Requirements',
+          r1: 'Windows 10 (1607) or Windows 11, 32 or 64-bit', r2: 'The PC with GameClass Server', r3: 'Administrator rights and internet', r4: 'ManaJoy Biznes app (club owner account)',
+          ssTitle: 'If "Windows protected your PC" appears',
+          ss: 'The program is not yet signed with a code-signing certificate, so Windows shows it as "unknown". Click "More info" → "Run anyway". Download the file only from this page and compare its checksum:',
+          ssHow: 'Check: cmd → certutil -hashfile ManajoyGameClass-Setup-{{VERSION}}.exe SHA256',
+          privacy: 'Terms of use and privacy', privacyAll: 'Manajoy privacy policy'
+        }
+      };
+      var uz = {};
+      document.querySelectorAll('[data-t]').forEach(function (el) { uz[el.dataset.t] = el.textContent; });
+      T.uz = uz;
+      var titles = { uz: "Manajoy GameClass — yuklab olish", ru: 'Manajoy GameClass — скачать', en: 'Manajoy GameClass — download' };
+
+      function apply(lang) {
+        var dict = T[lang] || T.uz;
+        document.querySelectorAll('[data-t]').forEach(function (el) {
+          if (dict[el.dataset.t]) el.textContent = dict[el.dataset.t];
+        });
+        document.querySelectorAll('[data-set-lang]').forEach(function (b) { b.classList.toggle('on', b.dataset.setLang === lang); });
+        document.documentElement.lang = lang;
+        document.title = titles[lang];
+        try { localStorage.setItem('mj.lang', lang); } catch (e) { /* private mode */ }
+      }
+
+      var saved = null;
+      try { saved = localStorage.getItem('mj.lang'); } catch (e) { /* private mode */ }
+      var browser = (navigator.language || 'uz').slice(0, 2);
+      apply(saved || (browser === 'ru' ? 'ru' : browser === 'en' ? 'en' : 'uz'));
+      document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+        b.addEventListener('click', function () { apply(b.dataset.setLang); });
+      });
+    })();
+  </script>
+</body>
+</html>

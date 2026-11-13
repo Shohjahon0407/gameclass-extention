@@ -1,0 +1,47 @@
+﻿MANAJOY GAMECLASS — FOYDALANISH SHARTLARI VA MAXFIYLIK SIYOSATI
+Tahrir: 2026-yil 23-oktabr
+
+Iltimos, o'rnatishdan oldin o'qib chiqing. «Shartlarni qabul qilaman» ni tanlab, siz klub egasi yoki uning vakili sifatida ushbu shartlarga rozilik bildirasiz.
+
+1. DASTUR NIMA QILADI
+Manajoy GameClass (bundan keyin — «Bridge») GameClass klub dasturi o'rnatilgan kompyuterda Windows xizmati sifatida ishlaydi. U GameClass bazasidan kompyuterlarning holatini o'qiydi va Manajoy ilovasida «qaysi kompyuter bo'sh, qaysi biri band va qachon bo'shaydi» ko'rinishida ko'rsatadi. Kassir uchun narx hisoblagich va klub xaritasi ham bor.
+
+2. GAMECLASS'GA TA'SIRI
+Bridge GameClass'ga hech narsa yozmaydi va uni boshqarmaydi: seans ochmaydi, yopmaydi, pul va sozlamalarni o'zgartirmaydi. Buning uchun o'rnatishda alohida «gcbridge_ro» SQL login yaratiladi. Unga faqat o'qish huquqi beriladi va yozish urinishlarini SQL Server'ning o'zi rad etishi o'rnatish paytida tekshirib ko'rsatiladi.
+
+3. QAYSI MA'LUMOTLAR O'QILADI
+Kompyuterlar ro'yxati va guruhlari (zonalar), holati, seanslarning boshlanish va tugash vaqtlari, bronlar vaqti, tariflar va narxlar; «Hisobot» uchun seanslarga to'langan pul, bar sotuvlari, smenalar va xodimlar (kassirlar) ismlari.
+Mijozlarning ismlari, telefon raqamlari, parollari va hisoblaridagi pul summalari O'QILMAYDI.
+
+4. MANAJOY'GA NIMA YUBORILADI
+Faqat klub egasi ManaJoy Biznes ilovasidagi bir martalik kod bilan ulagandan keyin, shifrlangan HTTPS ulanish orqali:
+- kompyuter raqami va nomi, zonasi;
+- holati (bo'sh / band / o'chiq / ta'mirda), qolgan vaqt va keyingi bron vaqti;
+- klub xaritasi (kompyuterlar va xonalarning joylashuvi), agar uni chizsangiz;
+- Bridge versiyasi va texnik holat (xato matnlari);
+- 0.9.0 versiyadan: har ish kuni uchun klub hisoboti — tushum (kompyuter vaqti, bar, akkauntlarga to'ldirish), kompyuterlarning band vaqti va kun jadvali, seanslar soni, tariflar, bar mahsulotlari, xodimlar va smenalar bo'yicha yig'indilar;
+- 0.10.0 versiyadan: bar mahsulotlarining qoldig'i va siz «Bar» bo'limida yozgan ombor yozuvlari (kirim, sanash, hisobdan chiqarish) — zaxira nusxa sifatida ham.
+Mijozlarning ismlari, telefonlari va mijozlar ro'yxati yuborilmaydi. Hisobotni yuborishni «Hisobot sozlamalari»da yoki ManaJoy Biznes ilovasida o'chirish mumkin; shunda faqat yuqoridagi jonli holat yuboriladi.
+
+5. KIM KO'RADI
+Kompyuterlar holati va klub xaritasi Manajoy ilovasi foydalanuvchilariga klubingiz sahifasida ko'rsatiladi. Klub hisobotini (tushum va boshqalar) faqat klubingizning ManaJoy Biznes ilovasidagi egasi va menejerlari hamda Manajoy qo'llab-quvvatlash xodimlari ko'radi. Ma'lumotlar Manajoy serverlarida klubingiz hisobiga bog'lab saqlanadi va uchinchi shaxslarga sotilmaydi. Manajoy'ning umumiy maxfiylik siyosati: https://www.manajoy.uz/privacy
+
+6. KOMPYUTERDA NIMA SAQLANADI
+- dastur fayllari (siz tanlagan papkada);
+- «gcbridge_ro» login paroli va Manajoy ulanish kaliti — Windows DPAPI bilan shifrlangan, faqat administrator va tizim o'qiy oladi;
+- texnik jurnal fayllari va oyna sozlamalari (C:\ProgramData\Manajoy\GameClassBridge);
+- «Hisobot» bo'limining PIN-kodi (faqat tuzli xesh, kodning o'zi emas) va ish kuni boshlanish soati (C:\ProgramData\Manajoy\GameClassBridge\analytics, faqat administrator va tizim o'qiy oladi).
+«Hisobot» bo'limidagi tushum, bandlik va bar hisobotlari GameClass bazasidan shu kompyuterning o'zida hisoblanadi; 4-bandga ko'ra kunlik yig'indisi Manajoy'ga yuboriladi.
+Bridge faqat shu kompyuter ichidagi manzilda (127.0.0.1:8787) ishlaydi va tarmoqdan ulanishlarni qabul qilmaydi.
+
+7. TO'XTATISH VA O'CHIRISH
+Ma'lumot yuborishni istalgan vaqtda «Sozlamalar → Yuborishni to'xtatish» bilan to'xtatish mumkin. Dasturni «Sozlamalar → O'chirib tashlash» yoki Windows'dagi «Ilovalar» bo'limi orqali o'chirsangiz, xizmat, fayllar va shifrlangan kalitlar o'chiriladi. Manajoy serveridagi ma'lumotlarni o'chirishni ManaJoy Biznes ilovasi orqali so'rash mumkin.
+
+8. YANGILANISHLAR
+Yangi versiyalar Manajoy saytida e'lon qilinadi. Yangilashda login, sozlamalar va Manajoy ulanishi saqlanadi.
+
+9. JAVOBGARLIK
+Dastur bepul taqdim etiladi va doimiy takomillashtirib boriladi. Manajoy GameClass ishlab chiqaruvchisi emas; GameClass dasturining o'zi va uning ishlashi uchun javobgarlik GameClass ishlab chiquvchisi va klub zimmasida.
+
+10. ALOQA
+Savollar va muammolar bo'yicha: https://www.manajoy.uz yoki ManaJoy Biznes ilovasidagi yordam bo'limi.

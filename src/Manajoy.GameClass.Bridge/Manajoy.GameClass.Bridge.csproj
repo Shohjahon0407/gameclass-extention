@@ -1,0 +1,86 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Manajoy.GameClass.Bridge</RootNamespace>
+    <AssemblyName>Manajoy.GameClass.Bridge</AssemblyName>
+    <Version>0.11.0</Version>
+    <Product>Manajoy GameClass Bridge</Product>
+    <AssemblyTitle>Manajoy GameClass</AssemblyTitle>
+    <Company>Manajoy</Company>
+    <Description>Manajoy GameClass Bridge: shows GameClass PC status in Manajoy (read-only)</Description>
+    <Copyright>Copyright © Manajoy 2026</Copyright>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <!-- Club PCs are often old with little RAM: a small background service does not need Server GC
+         (the Web SDK default, one heap per core). Workstation GC keeps the footprint low. -->
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <!-- One exe for the service and the setup window: double-click asks for administrator rights (UAC). -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <!-- A RID-specific publish produces one exe plus an editable appsettings.json.
+       NOT compressed: a compressed single-file bundle looks like a packed dropper to Microsoft Defender's
+       machine-learning model (Trojan:Win32/Wacatac.B!ml on the 0.4.0 download, 2026-10-14); the same
+       program uncompressed scans clean. To stay under Telegram's 50 MB the framework is trimmed instead
+       (TrimMode=partial: only framework assemblies; this app and its packages are kept whole, so the
+       reflection-based JSON and minimal APIs keep working). -->
+  <!-- InstallerLayout=true (the Windows installer, field-kit/installer): a plain folder of the untrimmed app, like any
+       regular Windows program: no self-extracting bundle (antivirus heuristics dislike those) and no size limit,
+       because the installer compresses it. -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != '' And '$(InstallerLayout)' != 'true'">
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
+    <!-- Shortcuts (desktop + the unelevated Edge launch) use typed COM (Setup/ShellShortcut.cs);
+         trimming would otherwise switch built-in COM off. -->
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.1" />
+    <PackageReference Include="System.Data.Odbc" Version="8.0.1" />
+    <!-- Event log reader for the disk health check (already a transitive dependency of WindowsServices). -->
+    <PackageReference Include="System.Diagnostics.EventLog" Version="8.0.1" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- The read-only guard is shared verbatim with the inspector (and covered by its tests). -->
+  <ItemGroup>
+    <Compile Include="..\Manajoy.GameClass.Inspector\Infrastructure\ReadOnlyQueryGuard.cs" Link="Data\ReadOnlyQueryGuard.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Update="install-service.ps1" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+  </ItemGroup>
+
+  <!-- No IIS/static-web-assets artifacts: the bridge is a self-hosted exe or Windows Service. -->
+  <PropertyGroup>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+    <GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
+  </PropertyGroup>
+
+  <!-- Setup window (HTML/CSS/JS, fonts, logo) is served from embedded resources; no files to ship. -->
+  <ItemGroup>
+    <EmbeddedResource Include="SetupUi\*" LogicalName="SetupUi/%(Filename)%(Extension)" />
+    <None Remove="SetupUi\*" />
+    <EmbeddedResource Include="appsettings.json" LogicalName="appsettings.default.json" />
+    <EmbeddedResource Include="Setup/release-public.pem" LogicalName="release-public.pem" />
+    <EmbeddedResource Include="Setup/update-runner.ps1" LogicalName="update-runner.ps1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Manajoy.GameClass.Bridge.Tests" />
+  </ItemGroup>
+
+</Project>
